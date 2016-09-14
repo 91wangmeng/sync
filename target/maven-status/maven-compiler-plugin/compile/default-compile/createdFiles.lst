@@ -1,9 +1,0 @@
-com\drore\cloud\service\SyncService.class
-com\drore\cloud\entity\ComparisonData.class
-com\drore\cloud\web\SyncController.class
-com\drore\cloud\entity\Data.class
-com\drore\cloud\utils\HttpUtils.class
-com\drore\cloud\entity\SyncData.class
-com\drore\cloud\entity\Param.class
-com\drore\cloud\SyncApplication.class
-com\drore\cloud\service\impl\SyncServiceImpl.class
