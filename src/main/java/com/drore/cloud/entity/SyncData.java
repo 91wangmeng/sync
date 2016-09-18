@@ -8,7 +8,7 @@ package com.drore.cloud.entity;
  *
  * @author wmm
  */
-public class SyncData implements Data {
+public class SyncData extends ComparisonData {
     private static final long serialVersionUID = 276216974922382604L;
     private String from_resource;
     private String to_resource;

@@ -1,6 +1,7 @@
 package com.drore.cloud.web;
 
 import com.drore.cloud.entity.ComparisonData;
+import com.drore.cloud.entity.SyncData;
 import com.drore.cloud.service.SyncService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,13 @@ public class SyncController {
     @RequestMapping("/sync/comparison")
     public List comparison(@RequestBody ComparisonData comparisonData) {
         return syncService.comparison(comparisonData);
+    }
+
+    @ResponseBody
+
+    @RequestMapping("/sync/sync")
+    public List sync(@RequestBody List<SyncData> syncDatas) {
+        return syncService.sync(syncDatas);
     }
 
     @RequestMapping("/")

@@ -37,7 +37,7 @@ function comparison() {
                 var compare_date_div = $("<div class='card-panel'></div>")
                 var table = $("<table class='highlight'>" +
                     "<tr>" +
-                    "<td>选择</td>" +
+                    "<td><input type='checkbox' id='checkbox_all' onchange='checkbox_all()'/><label for='checkbox_all'></label>选择</td>" +
                     "<td>主库</td>" +
                     "<td>从库</td>" +
                     "</tr></table>");
@@ -55,7 +55,7 @@ function comparison() {
 
 function detail(comparison, table) {
     $.each(comparison, function (i, item) {
-        var fromResource = item.fromResource||"";
+        var fromResource = item.fromResource || "";
         var toResource = item.toResource || "";
         var detailComparisons = item.detailComparisons;
         var flag = "" != toResource;
@@ -124,7 +124,51 @@ function build_detail(detailComparisons, div, type) {
 }
 
 function sync() {
-    $("input:checkbox:checked").each(function (i, item) {
-        $(item).data("id");
-    })
+    var checkbox = $("input:checkbox:checked");
+    if (checkbox.size() == 0) {
+        alert("请先选择要同步数据")
+    } else {
+
+        var fromTo = [];
+        checkbox.each(function (i, item) {
+            var data = {
+                from_appid: $('#from_appid').val(),
+                from_appsecret: $('#from_appsecret').val(),
+                to_appid: $('#to_appid').val(),
+                to_appsecret: $('#to_appsecret').val()
+            };
+            data.from_resource = $(item).data("from") || "";
+            data.to_resource = $(item).data("to") || "";
+            fromTo.push(data);
+        })
+
+        $.ajax({
+            type: "post",
+            url: "/sync/sync",
+            data: JSON.stringify(fromTo),
+            contentType: "application/json",
+            success: function (data) {
+                console.info(data);
+                comparison();
+            }
+        });
+    }
+}
+function exchange() {
+    var from_appid = $('#from_appid').val();
+    var from_appsecret = $('#from_appsecret').val();
+    var to_appid = $('#to_appid').val();
+    var to_appsecret = $('#to_appsecret').val();
+    $('#from_appid').val(to_appid);
+    $('#from_appsecret').val(to_appsecret);
+    $('#to_appid').val(from_appid);
+    $('#to_appsecret').val(from_appsecret);
+}
+function checkbox_all() {
+    var chcekbox_all = $("#checkbox_all");
+    if ($("#checkbox_all").prop('checked') == true) {
+        $("input:checkbox").prop('checked', true);
+    } else {
+        $("input:checkbox").prop('checked', false);
+    }
 }

@@ -13,13 +13,13 @@
 <div class="card-panel">
     <div class="row s12 container">
         <div class="input-field col s6">
-            <input placeholder="from_appid" id="from_appid" type="text" class="validate" value="cdrorYuyAOa79">
+            <input placeholder="from_appid" id="from_appid" type="text" class="validate">
             <label for="from_appid">
                 <span class="black-text">From Appid</span>
             </label>
         </div>
         <div class="input-field col s6">
-            <input placeholder="to_appid" id="to_appid" type="text" class="validate" value="cdrorFpVkgNVb">
+            <input placeholder="to_appid" id="to_appid" type="text" class="validate">
             <label for="to_appid">
                 <span class="black-text">To Appid</span>
             </label>
@@ -27,13 +27,13 @@
     </div>
     <div class="row s12 container">
         <div class="input-field col s6">
-            <input placeholder="from_appsecret" id="from_appsecret" type="text" class="validate" value="ldc2tCh8">
+            <input placeholder="from_appsecret" id="from_appsecret" type="text" class="validate">
             <label for="from_appsecret">
                 <span class="black-text">From Appsecret</span>
             </label>
         </div>
         <div class="input-field col s6">
-            <input placeholder="to_appsecret" id="to_appsecret" type="text" class="validate" value="p78nKjI6">
+            <input placeholder="to_appsecret" id="to_appsecret" type="text" class="validate">
             <label for="to_appsecret">
                 <span class="black-text">To Appsecret</span>
             </label>
@@ -45,7 +45,7 @@
                     class="mdi-file-cloud left"></i>比对</a>
         </div>
         <div class="center-align col s2">
-            <button class="material-icons z-depth-1">repeat</button>
+            <button class="material-icons z-depth-1" onclick="exchange()">repeat</button>
         </div>
         <div class="center-align col s5">
             <a class="waves-effect waves-light btn-large" id="sync" onclick="sync()"><i class="mdi-file-cloud left"></i>同步</a>
@@ -53,6 +53,6 @@
     </div>
 </div>
 <div id="circle" style='width: 200px;margin: 0 auto'></div>
-<div id="compare_date" ></div>
+<div id="compare_date"></div>
 </body>
 </html>

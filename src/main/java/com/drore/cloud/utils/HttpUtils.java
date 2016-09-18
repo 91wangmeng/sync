@@ -23,13 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class HttpUtils {
-
-
-    public static void main(String args[]) {
-//        System.out.println(httpGet("http://api.geatmap.com/geoutils/partitions?token=57ad6682cc085b0718b6ca66&shape=121.4630660000,29.9973610000|121.4604160000,29.9983850000|121.4589920000,29.9962660000|121.4557990000,29.9965160000&precision=8"));
-        System.out.println(httpGet("http://192.168.11.202:11187/tenant/updateTenantTopic?id=10df7f1ba9344d819ec355333442d264&tenantId=13d09a32357143bbaa781fb5ed8eb556&app_theme=backTheme"));
-    }
-
     public static String httpGet(String get_url) {
         String result = "";
         CloseableHttpClient httpclient = HttpClients.createDefault();

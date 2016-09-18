@@ -16,5 +16,5 @@ import java.util.List;
 public interface SyncService {
     List comparison(ComparisonData comparisonData);
 
-    List sync(SyncData syncData);
+    List sync(List<SyncData> syncDatas);
 }

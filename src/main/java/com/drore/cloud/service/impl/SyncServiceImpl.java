@@ -11,9 +11,11 @@ import com.drore.cloud.utils.HttpUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,8 @@ public class SyncServiceImpl implements SyncService {
     private String url;
     @Value("${comparison}")
     private String comparison;
+    @Value("${sync}")
+    private String sync;
     @Resource
     private Param param;
 
@@ -56,7 +60,9 @@ public class SyncServiceImpl implements SyncService {
                 int errcode = data.get().getIntValue("errCode");
                 if (errcode == 8200) {
                     String value = data.get().getString("value");
-                    return JSONArray.parseArray(value);
+                    if (!"Identity ...".equals(value)) {
+                        return JSONArray.parseArray(value);
+                    }
                 }
             }
         }
@@ -64,7 +70,33 @@ public class SyncServiceImpl implements SyncService {
     }
 
     @Override
-    public List sync(SyncData syncData) {
-        return null;
+    public List<String> sync(List<SyncData> syncDatas) {
+        List<String> list = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(syncDatas)) {
+            for (SyncData syncData : syncDatas) {
+                param.setData(syncData);
+                if (logger.isDebugEnabled()) {
+                    logger.debug(JSON.toJSONString(param));
+                }
+                String sync_url = url + sync;
+
+                String response = HttpUtils.postJson(sync_url, JSON.parseObject(JSON.toJSONString(param)));
+                if (!StringUtils.isEmpty(response)) {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug(response);
+                    }
+                    Optional<JSONObject> data = Optional.ofNullable(JSON.parseObject(response));
+                    if (data.isPresent()) {
+                        int errcode = data.get().getIntValue("errCode");
+                        if (errcode == 8200) {
+                            String value = data.get().getString("value");
+                            list.add(value);
+                        }
+                    }
+                }
+
+            }
+        }
+        return list;
     }
 }
