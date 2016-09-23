@@ -35,7 +35,7 @@ function comparison() {
             success: function (data) {
                 circle_div.empty();
                 var compare_date_div = $("<div class='card-panel'></div>")
-                var table = $("<table class='highlight'>" +
+                var table = $("<table class='highlight' id='main'>" +
                     "<tr>" +
                     "<td><input type='checkbox' id='checkbox_all' onchange='checkbox_all()'/><label for='checkbox_all'></label>选择</td>" +
                     "<td>主库</td>" +
@@ -48,6 +48,16 @@ function comparison() {
                 $('.collapsible').collapsible({
                     accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
                 });
+                $("#main").on("click", ".main_td", function (e) {
+                    var this_body = $(this).find(".collapsible-body").css('display');
+                    var other_body = $(this).parents("tr").find(".collapsible-body");
+                    if (this_body == "none") {
+                        other_body.show();
+                    } else {
+                        other_body.hide();
+                    }
+
+                })
             }
         }
     )
@@ -77,14 +87,16 @@ function detail(comparison, table) {
     })
 
 }
+
+
 function build_td(detailComparisons, resource, type) {
     var flag = undefined != detailComparisons && detailComparisons != null;
-    var td = $("<td></td>");
+    var td = $("<td class='main_td'></td>");
     //var to_td = $("<td></td>");
     var ul = $("<ul class='collapsible collapsible-accordion' data-collapsible='accordion'></ul>");
     var li = $("<li></li>");
     var head_div = $("<div class='collapsible-header'>" + resource.r_cn_name + "</div>");
-    var body_div = $("<div class='collapsible-body'></div>");
+    var body_div = $("<div class='collapsible-body' style='display: none'></div>");
     var div = $("<div class='card-panel'></div>");
     if (flag) {
         build_detail(detailComparisons, div, type);
@@ -96,10 +108,12 @@ function build_td(detailComparisons, resource, type) {
     td.append(ul);
     return td;
 }
+
+
 function build_detail(detailComparisons, div, type) {
-    var tabel = $("<tabel class='centered'></tabel>");
+    var tabel = $("<tabel class='centered striped'></tabel>");
     var first_tr = $("<tr></tr>");
-    var first_td = $("<td>字段</td><td>名称</td><td>长度</td><td>类型</td>");
+    var first_td = $("<td>字段</td><td>名称</td><td>长度</td><td>类型</td><td>差异</td>");
     first_tr.append(first_td);
     tabel.append(first_tr);
     $.each(detailComparisons, function (i, item) {
@@ -115,7 +129,17 @@ function build_detail(detailComparisons, div, type) {
             var td = $("<td>" + Detail.rd_name + "</td>" +
                 "<td>" + Detail.rd_cn_name + "</td>" +
                 "<td>" + Detail.rd_length + "</td>" +
-                "<td>" + Detail.field_type + "</td>");
+                "<td>" + Detail.field_type + "</td>" +
+                "<td>" + item.comparison + "</td>");
+            tr.append(td);
+            tabel.append(tr);
+        } else {
+            var tr = $("<tr></tr>");
+            var td = $("<td>无</td>" +
+                "<td>无</td>" +
+                "<td>无</td>" +
+                "<td>无</td>" +
+                "<td>无</td>");
             tr.append(td);
             tabel.append(tr);
         }
@@ -172,3 +196,4 @@ function checkbox_all() {
         $("input:checkbox").prop('checked', false);
     }
 }
+
